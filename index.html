@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My E-Commerce Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: aqua;
+            background-color: antiquewhite;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: #444;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .container {
+            padding: 2rem;
+        }
+        .container  p{
+            font-size: 30px;
+            
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            background-color: #f9f9f9;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+            width: calc(33% - 2rem);
+            box-sizing: border-box;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product h2 {
+            font-size: 1.5rem;
+        }
+
+        .product p {
+            font-size: 1rem;
+        }
+
+        .product button {
+            margin-top: 0.5rem;
+        }
+
+        .product-details {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 500px;
+            padding: 2rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .product-details h2 {
+            margin-top: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .footer-info,
+        .footer-links,
+        .footer-social {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-info p,
+        .footer-info a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-info a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-links ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer-social a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            margin-top: 0.5rem;
+            border-top: 1px solid #444;
+            padding-top: 0.5rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 1200px) {
+            .product {
+                width: calc(50% - 2rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product {
+                width: calc(100% - 2rem);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav.show {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            header,
+            nav {
+                font-size: 0.875rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .products {
+                gap: 0.5rem;
+            }
+        }
+
+        /* About Us Box Styling */
+        #about {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .about-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+            background-color: rgb(193, 217, 217);
+        }
+
+        .about-box h2 {
+            margin-top: 0;
+        }
+
+        .about-box section {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .about-box ul li {
+            margin-bottom: 0.5rem;
+        }
+
+
+
+
+
+
+        #contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .contact-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .contact-box h2 {
+            margin-top: 0;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .contact-form button {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+
+        .contact-form button:hover {
+            background-color: #555;
+        }
+
+        .map-container {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>My E-Commerce Site</h1>
+        <button class="menu-toggle">Menu</button>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div id="home" class="container">
+        <h2>Welcome to My E-Commerce Site</h2>
+        <p>Your one-stop shop for amazing products! </p>
+    </div>
+
+    <div id="products" class="container">
+        <h2>Our Products</h2>
+        <div class="products">
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/black jaket.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/t shirt with sneaker.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white tshirt.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/hoodey.avif" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white hoodey.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white hoodey.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white hoodey.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white hoodey.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+
+
+
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white hoodey.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+
+
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white hoodey.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+
+
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white hoodey.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+
+
+            <div class="product" data-name="Product 1" data-price="19.99" data-description="Description of product 1">
+                <img src="assets/white hoodey.webp" alt="Product 1 Image">
+                <h2>Product 1</h2>
+                <p>Price: $19.99</p>
+                <p>Description of product 1.</p>
+                <button onclick="showDetails(this)">View Details</button>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="about" class="container">
+        <div class="about-box">
+            <h2>About Us</h2>
+
+            <section>
+                <h3>Our Mission</h3>
+                <p>Our mission is to deliver exceptional products and services that exceed customer expectations. We
+                    believe in innovation, quality, and integrity, and we strive to offer products that enrich the lives
+                    of our customers.</p>
+            </section>
+            <section>
+                <h3>Our Team</h3>
+                <p>We have a diverse and talented team dedicated to making your shopping experience enjoyable. Our team
+                    includes product experts, customer service representatives, and creative designers, all working
+                    together to ensure you receive the best possible service.</p>
+                <ul>
+                    <li><strong>Shrishail Rathod:</strong> CEO & Founder</li>
+                    <li><strong>Shrishail:</strong> Head of Product Development</li>
+                    <li><strong>Shrishail:</strong> Customer Service Manager</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Our Values</h3>
+                <p>At the heart of our company are our core values: customer satisfaction, transparency, and
+                    sustainability. We are committed to ethical practices and continuously seek ways to improve our
+                    impact on the environment and the community.</p>
+            </section>
+        </div>
+    </div>
+
+    <div id="contact" class="container">
+        <div class="contact-box">
+            <h2>Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form action="mailto:rshrishail51@gmail.com.com" method="post" enctype="text/plain">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+                <div class="map-container">
+                    <h3>Our Location</h3>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15080.724302905392!2d72.91061989999999!3d19.099710599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1724740668688!5m2!1sen!2sin"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>" allowfullscreen=""
+                    loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="product-modal" class="product-details">
+        <button class="close-btn" onclick="closeModal()">X</button>
+        <h2 id="modal-name"></h2>
+        <p id="modal-description"></p>
+        <p id="modal-price"></p>
+    </div>
+
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Contact Us</h3>
+                <p>Email: <a href="mailto:contact@myecommercesite.com">contact@myecommercesite.com</a></p>
+                <p>Phone: (123) 456-7890</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <a href="" target="_blank" class="social-icon">Facebook</a>
+                <a href="https://twitter.com" target="_blank" class="social-icon">Twitter</a>
+                <a href="https://instagram.com" target="_blank" class="social-icon">Instagram</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 My E-Commerce Site. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+
+    <script>
+        function showDetails(button) {
+            const product = button.parentElement;
+            const modal = document.getElementById('product-modal');
+            document.getElementById('modal-name').textContent = product.getAttribute('data-name');
+            document.getElementById('modal-description').textContent = product.getAttribute('data-description');
+            document.getElementById('modal-price').textContent = `Price: $${product.getAttribute('data-price')}`;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').style.display = 'none';
+        }
+
+        let cartCount = 0;
+        function addToCart() {
+            cartCount++;
+            alert(`Item added to cart! Total items: ${cartCount}`);
+        }
+
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('nav').classList.toggle('show');
+        });
+    </script>
+</body>
+
+</html>
